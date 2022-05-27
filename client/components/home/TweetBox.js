@@ -22,7 +22,7 @@ const style = {
 
 const TweetBox = () => {
   const [tweetMessage, setTweetMessage] = useState('')
-  const { currentAccount,  } = useContext(TwitterContext) 
+  const { currentAccount, currentUser, fetchTweets  } = useContext(TwitterContext) 
   const submitTweet = async (event) => {
     event.preventDefault()
 
@@ -52,61 +52,21 @@ const TweetBox = () => {
       },
     ])
     .commit()
-
-  setTweetMessage('')
+    await fetchTweets()
+    setTweetMessage('')
   }
-
-//   const { currentAccount, fetchTweets, currentUser } =
-//     useContext(TwitterContext)
-
-//   const submitTweet = async (event: any) => {
-//     event.preventDefault()
-
-//     if (!tweetMessage) return
-//     const tweetId = `${currentAccount}_${Date.now()}`
-
-//     const tweetDoc = {
-//       _type: 'tweets',
-//       _id: tweetId,
-//       tweet: tweetMessage,
-//       timestamp: new Date(Date.now()).toISOString(),
-//       author: {
-//         _key: tweetId,
-//         _ref: currentAccount,
-//         _type: 'reference',
-//       },
-//     }
-
-//     await client.createIfNotExists(tweetDoc)
-
-//     await client
-//       .patch(currentAccount)
-//       .setIfMissing({ tweets: [] })
-//       .insert('after', 'tweets[-1]', [
-//         {
-//           _key: tweetId,
-//           _ref: tweetId,
-//           _type: 'reference',
-//         },
-//       ])
-//       .commit()
-
-//     await fetchTweets()
-//     setTweetMessage('')
-//   }
-
+  
   return (
     <div className={style.wrapper}>
       <div className={style.tweetBoxLeft}>
         <img
-          src={"https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg"}
+          src = {currentUser.profileImage}
           alt="profile image"
-          className={style.profileImage}
-        //   className={
-        //     currentUser.isProfileImageNft
-        //       ? `${style.profileImage} smallHex`
-        //       : style.profileImage
-        //   }
+          className={
+            currentUser.isProfileImageNft
+              ? `${style.profileImage} smallHex`
+              : style.profileImage
+           }
         />
       </div>
       <div className={style.tweetBoxRight}>
@@ -144,3 +104,44 @@ const TweetBox = () => {
 }
 
 export default TweetBox
+
+
+
+  //const { currentAccount, fetchTweets, currentUser } =     useContext(TwitterContext)
+
+//   const submitTweet = async (event: any) => {
+//     event.preventDefault()
+
+//     if (!tweetMessage) return
+//     const tweetId = `${currentAccount}_${Date.now()}`
+
+//     const tweetDoc = {
+//       _type: 'tweets',
+//       _id: tweetId,
+//       tweet: tweetMessage,
+//       timestamp: new Date(Date.now()).toISOString(),
+//       author: {
+//         _key: tweetId,
+//         _ref: currentAccount,
+//         _type: 'reference',
+//       },
+//     }
+
+//     await client.createIfNotExists(tweetDoc)
+
+//     await client
+//       .patch(currentAccount)
+//       .setIfMissing({ tweets: [] })
+//       .insert('after', 'tweets[-1]', [
+//         {
+//           _key: tweetId,
+//           _ref: tweetId,
+//           _type: 'reference',
+//         },
+//       ])
+//       .commit()
+
+//     await fetchTweets()
+//     setTweetMessage('')
+//   }
+

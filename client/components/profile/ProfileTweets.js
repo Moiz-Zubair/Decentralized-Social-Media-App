@@ -1,3 +1,5 @@
+import { useEffect, useContext, useState } from 'react'
+import { TwitterContext } from '../../context/TwitterContext'
 import Post from '../Post'
 
 const style = {
@@ -5,63 +7,76 @@ const style = {
     header: `sticky top-0 bg-[#15202b] z-10 p-4 flex justify-between items-center`,
     headerTitle: `text-xl font-bold`,
   }
-  
+
 
 const ProfileTweets = () => {
-    const tweets = [
-        {
-            displayName:'Afnan',
-            userName:'0x8Cd390snsfe8f9f3f39f3fD',
-            text:'Good Morning',
-            isProfileImageNft:'false',
-            timestamp:'2020-06-01T12:00:00.000Z',
-            avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
-        },
-        {
-            displayName:'Afnan',
-            userName:'0x8Cd390snsfe8f9f3f39f3fD',
-            text:'Good Morning',
-            isProfileImageNft:'false',
-            timestamp:'2020-06-01T12:00:00.000Z',
-            avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
-        },
-        {
-            displayName:'Afnan',
-            userName:'0x8Cd390snsfe8f9f3f39f3fD',
-            text:'Good Morning',
-            isProfileImageNft:'false',
-            timestamp:'2020-06-01T12:00:00.000Z',
-            avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
-        },
-        {
-            displayName:'Afnan',
-            userName:'0x8Cd390snsfe8f9f3f39f3fD',
-            text:'Good Morning',
-            isProfileImageNft:'false',
-            timestamp:'2020-06-01T12:00:00.000Z',
-            avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
-        }
-    ]
-
-
-    return ( 
-        <div className={style.wrapper}>
-      {tweets?.map((tweet, index) => (
+  const {currentAccount, currentUser} = useContext(TwitterContext)
+  return (
+    <div className={style.wrapper}>
+      {currentUser.tweets?.map((tweet, index) => (
         <Post
           key={index}
-          displayName={tweet.displayName}
-          userName={`${tweet.userName.slice(
+          displayName={
+            currentUser.name === 'Unnamed'
+              ? `${currentAccount.slice(
+                  0,
+                  4,
+                )}...${currentAccount.slice(-4)}`
+              : currentUser.name
+          }
+          userName={`${currentAccount.slice(
             0,
             4,
-          )}...${tweet.userName.slice(41)}`}
-          text={tweet.text}
-          avatar={tweet.avatar}
+          )}...${currentAccount.slice(-4)}`}
+          text={tweet.tweet}
+          avatar={currentUser.profileImage}
           timestamp={tweet.timestamp}
-          isProfileImageNft={tweet.isProfileImageNft}
+          isProfileImageNft={currentUser.isProfileImageNft}
         />
       ))}
     </div>
+
+
+
      );
 }
  
 export default ProfileTweets;
+
+/*
+  
+const tweets = [
+    {
+        displayName:'Afnan',
+        userName:'0x8Cd390snsfe8f9f3f39f3fD',
+        text:'Good Morning',
+        isProfileImageNft:'false',
+        timestamp:'2020-06-01T12:00:00.000Z',
+        avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
+    },
+    {
+        displayName:'Afnan',
+        userName:'0x8Cd390snsfe8f9f3f39f3fD',
+        text:'Good Morning',
+        isProfileImageNft:'false',
+        timestamp:'2020-06-01T12:00:00.000Z',
+        avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
+    },
+    {
+        displayName:'Afnan',
+        userName:'0x8Cd390snsfe8f9f3f39f3fD',
+        text:'Good Morning',
+        isProfileImageNft:'false',
+        timestamp:'2020-06-01T12:00:00.000Z',
+        avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
+    },
+    {
+        displayName:'Afnan',
+        userName:'0x8Cd390snsfe8f9f3f39f3fD',
+        text:'Good Morning',
+        isProfileImageNft:'false',
+        timestamp:'2020-06-01T12:00:00.000Z',
+        avatar:'https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg'
+    }
+]
+*/

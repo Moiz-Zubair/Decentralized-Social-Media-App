@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
-// import { useContext, useEffect, useState } from 'react'
-// import { TwitterContext } from '../../context/TwitterContext'
+import { useContext, useEffect, useState } from 'react'
+import { TwitterContext } from '../../context/TwitterContext'
 import { BsArrowLeftShort } from 'react-icons/bs'
 // import Modal from 'react-modal'
 // import ProfileImageMinter from './mintingModal/ProfileImageMinter'
 // import { customStyles } from '../../lib/constants'
-
-
 
 
 const style = {
@@ -27,32 +25,32 @@ const style = {
   }
 
 const ProfileHeader = () => {
-    // const { currentAccount, currentUser } = useContext(TwitterContext)
-  const router = useRouter();
-  const isProfileImageNft= false;
-  const currentAccount = "0x8Cd390snsfe8f9f3f39f3fD"
-//   const [userData, setUserData] = useState<UserData>({
-//     name: '',
-//     profileImage: '',
-//     coverImage: '',
-//     walletAddress: '',
-//     tweets: [],
-//     isProfileImageNft: undefined,
-//   })
+  const { currentAccount, currentUser } = useContext(TwitterContext)
+  const router = useRouter()
+  //const currentAccount = "0x8Cd390snsfe8f9f3f39f3fD"
+  /* 
+  const [userData, setUserData] = useState<UserData>({
+     name: '',
+     profileImage: '',
+     coverImage: '',
+     walletAddress: '',
+     tweets: [],
+     isProfileImageNft: undefined,
+   })
 
-//   useEffect(() => {
-//     if (!currentUser) return
+   useEffect(() => {
+     if (!currentUser) return
 
-//     setUserData({
-//       name: currentUser.name,
-//       profileImage: currentUser.profileImage,
-//       walletAddress: currentUser.walletAddress,
-//       coverImage: currentUser.coverImage,
-//       tweets: currentUser.tweets,
-//       isProfileImageNft: currentUser.isProfileImageNft,
-//     })
-//   }, [currentUser])
-
+  setUserData({
+    name: currentUser.name,
+    profileImage: currentUser.profileImage,
+    walletAddress: currentUser.walletAddress,
+    coverImage: currentUser.coverImage,
+    tweets: currentUser.tweets,
+    isProfileImageNft: currentUser.isProfileImageNft,
+  })
+  }, [currentUser])
+*/
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -60,16 +58,16 @@ const ProfileHeader = () => {
           <BsArrowLeftShort />
         </div>
         <div className={style.details}>
-          <div className={style.primary}>Afnan</div>
+          <div className={style.primary}>{currentUser.name}</div>
           <div className={style.secondary}>
-            4 Tweets
+          {currentUser.tweets?.length}{''}
+          {currentUser.tweets?.length === 1 ? 'Tweet' : 'Tweets' }
           </div>
         </div>
       </div>
       <div className={style.coverPhotoContainer}>
         <img
-        //   src={userData.coverImage}
-          src="https://pbs.twimg.com/profile_banners/2659779415/1560327900/1500x500"
+          src={currentUser.coverImage}
           alt='cover'
           className={style.coverPhoto}
         />
@@ -77,14 +75,14 @@ const ProfileHeader = () => {
       <div className={style.profileImageContainer}>
         <div
           className={
-            isProfileImageNft ? 'hex' : style.profileImageContainer
+            currentUser.isProfileImageNft ? 'hex' : style.profileImageContainer
           }
         >
           <img
-            src="https://pbs.twimg.com/profile_images/1132217502635843585/1wbCaSXd_400x400.jpg"
-            alt="profile image"
+            src={currentUser.profileImage}
+            alt="Profile Image"
             className={
-              isProfileImageNft
+              currentUser.isProfileImageNft
                 ? style.profileImageNft
                 : style.profileImage
             }
@@ -93,7 +91,7 @@ const ProfileHeader = () => {
       </div>
       <div className={style.details}>
         <div>
-          <div className={style.primary}>"Afnan"</div>
+          <div className={style.primary}>{currentUser.name}</div>
         </div>
         <div className={style.secondary}>
           {currentAccount && (
